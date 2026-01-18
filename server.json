@@ -9,7 +9,7 @@
   "version": "1.0.1",
   "packages": [
     {
-      "registry_type": "pypi",
+      "registryType": "pypi",
       "identifier": "skillhub-mcp",
       "version": "1.0.1",
       "transport": {
