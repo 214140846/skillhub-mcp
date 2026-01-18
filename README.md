@@ -210,3 +210,51 @@ If you need Claude Code compatibility, keep the flat layout.
 
 - English: `README.md`
 - 中文: `README.zh-CN.md`
+
+
+## About the Author
+
+I focus on **AI SaaS going global**, covering the full journey from **idea validation and vibe coding** to **product development, infrastructure, SEO, backlinks, and growth experiments**.
+
+Everything shared here comes from real projects, real traffic, and real revenue attempts.
+
+- **Feishu Knowledge Base**:
+    
+    [Thor’s AI Going-Global Content Planning](https://my.feishu.cn/wiki/DUzewBOq2iy1rPkSYJecMRXYnFh)
+    
+    A structured knowledge base documenting hands-on experience in AI product overseas expansion, including demand discovery, execution strategies, and common pitfalls.
+    
+- **Blog**:
+    
+    [Thor-AI Blog](https://www.notion.so/Thor-AI-2eaf0388ab4680d0a98bedc8d290e1be?pvs=21)
+    
+    Long-form notes and case studies on building, launching, and iterating AI products in public.
+    
+- **Open-source Project (High Star)**:
+    
+    **Smart Campus System**
+    
+    - GitHub: https://github.com/214140846/TOGO_School_Miniprograme
+    - Gitee: https://gitee.com/zengyunengineer/TOGO_School_Miniprograme
+- **Social**:
+    
+    [Jike](https://web.okjike.com/u/159D450D-2193-4739-8825-AA8EBEC2E9B4)
+    
+    Sharing real-time thoughts on indie hacking, AI tools, and product growth.
+    
+- **Product**:
+    - **AI Video Generation Platform**:
+        
+        [AI Video Generation](https://sora2.cloud/)
+        
+        An online platform for AI-powered video generation, focused on practical use cases and real user workflows.
+        
+    - **AI Video & Image Generation**:
+        
+        [AI Video & Image Collection](https://www.notion.so/2e7600937cb3808c818efe79141f7ee6?pvs=21)
+        
+        A curated collection of AI video and image generation tools, experiments, and capability tracking.
+        
+- **AI Video & Image Collection**:
+    
+    [https://www.notion.so/2e7600937cb3808c818efe79141f7ee6](https://www.notion.so/2e7600937cb3808c818efe79141f7ee6?pvs=21)
