@@ -10,8 +10,10 @@
 ## Links
 
 - PyPI: https://pypi.org/project/skillhub-mcp/
-- PyPI v1.0.0: https://pypi.org/project/skillhub-mcp/1.0.0/
+- PyPI v1.0.1: https://pypi.org/project/skillhub-mcp/1.0.1/
 - Skills directory: http://skills.214140846.net/
+
+mcp-name: io.github.214140846/skillhub-mcp
 
 You already have Claude-style skills (`SKILL.md`), but in practice you often hit a wall:
 

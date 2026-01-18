@@ -10,8 +10,10 @@
 ## 相关链接
 
 - PyPI：https://pypi.org/project/skillhub-mcp/
-- PyPI v1.0.0：https://pypi.org/project/skillhub-mcp/1.0.0/
+- PyPI v1.0.1：https://pypi.org/project/skillhub-mcp/1.0.1/
 - Skills 目录：http://skills.214140846.net/
+
+mcp-name: io.github.214140846/skillhub-mcp
 
 你已经有一套 Claude 风格的 Skills（`SKILL.md`），但在实际使用里经常会遇到：
 

@@ -1,0 +1,94 @@
+name: Publish MCP Registry
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "发布版本号，例如 1.0.1"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      VERSION_INPUT: ${{ inputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Resolve release version
+        id: resolve
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            version="${GITHUB_REF#refs/tags/v}"
+          elif [[ -n "${VERSION_INPUT}" ]]; then
+            version="${VERSION_INPUT}"
+          else
+            echo "缺少版本号：请推送 vX.Y.Z tag 或在 workflow_dispatch 里填写 version。"
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate versions
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.resolve.outputs.version }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import tomllib
+
+          version = os.environ["RELEASE_VERSION"]
+          with open("pyproject.toml", "rb") as f:
+            pyproject = tomllib.load(f)
+          if pyproject["project"]["version"] != version:
+            raise SystemExit(f"pyproject.toml version 不匹配: {pyproject['project']['version']} != {version}")
+
+          with open("server.json", "r", encoding="utf-8") as f:
+            server = json.load(f)
+          if server.get("version") != version:
+            raise SystemExit(f"server.json version 不匹配: {server.get('version')} != {version}")
+          for package in server.get("packages", []):
+            if package.get("version") != version:
+              raise SystemExit(
+                f"server.json packages.version 不匹配: {package.get('version')} != {version}"
+              )
+          PY
+
+      - name: Install build deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build
+
+      - name: Build package
+        run: python -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/download/v1.0.0/mcp-publisher_1.0.0_linux_amd64.tar.gz" | tar xz mcp-publisher
+          chmod +x mcp-publisher
+
+      - name: Publish to MCP Registry
+        run: |
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish
