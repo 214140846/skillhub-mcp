@@ -1,5 +1,9 @@
 # Skillhub MCP
 
+<p align="center">
+  <img src="./assets/logo.png" alt="Skillhub MCP logo" width="160" />
+</p>
+
 [![PyPI version](https://img.shields.io/pypi/v/skillhub-mcp.svg)](https://pypi.org/project/skillhub-mcp/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/skillhub-mcp.svg)](https://pypi.org/project/skillhub-mcp/)
 
