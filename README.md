@@ -247,13 +247,27 @@ Everything shared here comes from real projects, real traffic, and real revenue 
 - **Product**:
     - **AI Video Generation Platform**:
         
-        [AI Video Generation](https://sora2.cloud/)
+        [Sora 2](https://sora2.cloud/)
+        [Sora 2 ai](https://sora2.cloud/home)
         
         An online platform for AI-powered video generation, focused on practical use cases and real user workflows.
         
     - **AI Video & Image Generation**:
         
-        [AI Video & Image Collection](https://www.notion.so/2e7600937cb3808c818efe79141f7ee6?pvs=21)
+        [AI Video & Image Collection](https://ricebowl.ai/)
+
+      Model pages:
+      - [Grok Video](https://ricebowl.ai/m/grok-video)
+      - [Sora 2](https://ricebowl.ai/m/sora/sora-2)
+      - [Veo 3.1](https://ricebowl.ai/m/veo/veo-3-1)
+      - [Veo 3](https://ricebowl.ai/m/veo/veo-3)
+      - [Veo 2](https://ricebowl.ai/m/veo/veo-2)
+      - [Kling 2.6](https://ricebowl.ai/m/kling-2-6)
+      - [Wan 2.5](https://ricebowl.ai/m/wan/wan-2-5)
+      - [Seedance](https://ricebowl.ai/m/seedance)
+      - [Nano Banana 2](https://ricebowl.ai/m/nano-banana-2)
+      - [Nano Banana Pro](https://ricebowl.ai/m/nano-banana-pro)
+        
         
         A curated collection of AI video and image generation tools, experiments, and capability tracking.
         
