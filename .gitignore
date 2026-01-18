@@ -9,3 +9,5 @@ tmp/
 /build/
 __pycache__/
 .agentdocs/
+# Secrets / local tokens
+.mcpregistry_github_token

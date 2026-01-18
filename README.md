@@ -253,8 +253,8 @@ Everything shared here comes from real projects, real traffic, and real revenue 
         
     - **AI Video & Image Generation**:
         
-        [AI Video & Image Collection](https://www.notion.so/2e7600937cb3808c818efe79141f7ee6?pvs=21)
-        
+        [AI Video & Image Collection](https://ricebowl.ai)
+
         A curated collection of AI video and image generation tools, experiments, and capability tracking.
         
 - **AI Video & Image Collection**:
