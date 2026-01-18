@@ -222,7 +222,7 @@ Everything shared here comes from real projects, real traffic, and real revenue 
 
 - **Feishu Knowledge Base**:
     
-    [Thor’s AI Going-Global Content Planning](https://my.feishu.cn/wiki/DUzewBOq2iy1rPkSYJecMRXYnFh)
+    [Thor’s AI Going-Global Content Planning](https://my.feishu.cn/wiki/space/7271588985498140676?ccm_open_type=lark_wiki_spaceLink&open_tab_from=wiki_home)
     
     A structured knowledge base documenting hands-on experience in AI product overseas expansion, including demand discovery, execution strategies, and common pitfalls.
     
