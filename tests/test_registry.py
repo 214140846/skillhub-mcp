@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from skillz import SkillRegistry
+from skillhub_mcp import SkillRegistry
 
 
 def write_skill(directory: Path, name: str = "Echo") -> Path:

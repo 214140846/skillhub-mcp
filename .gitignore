@@ -8,3 +8,4 @@ tmp/
 /*.egg-info
 /build/
 __pycache__/
+.agentdocs/

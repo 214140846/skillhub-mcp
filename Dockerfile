@@ -26,17 +26,17 @@ COPY --from=builder /app /app
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Create non-root user
-RUN groupadd -r skillz && useradd --no-log-init -r -g skillz skillz
+RUN groupadd -r skillhub-mcp && useradd --no-log-init -r -g skillhub-mcp skillhub-mcp
 
 # Change ownership to non-root user
-RUN chown -R skillz:skillz /app
+RUN chown -R skillhub-mcp:skillhub-mcp /app
 
 # Switch to non-root user
-USER skillz
+USER skillhub-mcp
 
 # Expose port (default is 8000 for HTTP transport)
 EXPOSE 8000
 
-# Run the Skills MCP server, allow arguments to be passed at runtime
-ENTRYPOINT ["python", "-m", "skillz"]
+# Run the Skillhub MCP server, allow arguments to be passed at runtime
+ENTRYPOINT ["python", "-m", "skillhub_mcp"]
 # No CMD, so arguments can be passed via docker run

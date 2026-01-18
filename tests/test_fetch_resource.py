@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from skillz import SkillRegistry, build_server
+from skillhub_mcp import SkillRegistry, build_server
 
 
 def write_skill_with_resources(
@@ -56,7 +56,7 @@ async def test_fetch_text_resource(tmp_path: Path) -> None:
 
     # Fetch a text resource
     result = await fetch_tool.fn(
-        resource_uri="resource://skillz/testskill/script.py"
+        resource_uri="resource://skillhub-mcp/testskill/script.py"
     )
 
     # Verify response structure
@@ -67,7 +67,7 @@ async def test_fetch_text_resource(tmp_path: Path) -> None:
     assert "encoding" in result
 
     # Verify content
-    assert result["uri"] == "resource://skillz/testskill/script.py"
+    assert result["uri"] == "resource://skillhub-mcp/testskill/script.py"
     assert result["name"] == "testskill/script.py"
     assert result["mime_type"] == "text/x-python"
     assert result["encoding"] == "utf-8"
@@ -88,7 +88,7 @@ async def test_fetch_binary_resource(tmp_path: Path) -> None:
 
     # Fetch a binary resource
     result = await fetch_tool.fn(
-        resource_uri="resource://skillz/testskill/data.bin"
+        resource_uri="resource://skillhub-mcp/testskill/data.bin"
     )
 
     # Verify encoding
@@ -99,7 +99,7 @@ async def test_fetch_binary_resource(tmp_path: Path) -> None:
     assert decoded == b"\xff\xfe\x00\x01\x80\x90"
 
     # Verify other fields
-    assert result["uri"] == "resource://skillz/testskill/data.bin"
+    assert result["uri"] == "resource://skillhub-mcp/testskill/data.bin"
     assert result["name"] == "testskill/data.bin"
 
 
@@ -138,7 +138,7 @@ async def test_fetch_resource_missing_slug(tmp_path: Path) -> None:
     fetch_tool = tools["fetch_resource"]
 
     # Try to fetch with no slug
-    result = await fetch_tool.fn(resource_uri="resource://skillz/")
+    result = await fetch_tool.fn(resource_uri="resource://skillhub-mcp/")
 
     # Should return error resource
     assert result["encoding"] == "utf-8"
@@ -160,7 +160,7 @@ async def test_fetch_resource_nonexistent_skill(tmp_path: Path) -> None:
 
     # Try to fetch from nonexistent skill
     result = await fetch_tool.fn(
-        resource_uri="resource://skillz/nope/some.txt"
+        resource_uri="resource://skillhub-mcp/nope/some.txt"
     )
 
     # Should return error resource
@@ -183,7 +183,7 @@ async def test_fetch_resource_nonexistent_file(tmp_path: Path) -> None:
 
     # Try to fetch nonexistent file from valid skill
     result = await fetch_tool.fn(
-        resource_uri="resource://skillz/testskill/missing.txt"
+        resource_uri="resource://skillhub-mcp/testskill/missing.txt"
     )
 
     # Should return error resource

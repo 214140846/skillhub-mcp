@@ -1,6 +1,6 @@
 [project]
-name = "skillz"
-version = "0.1.14"
+name = "skillhub-mcp"
+version = "1.0.0"
 description = "MCP server that exposes Claude-style skills to any MCP client."
 readme = "README.md"
 authors = [
@@ -23,11 +23,11 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/214140846/skills-mcp"
-Issues = "https://github.com/214140846/skills-mcp/issues"
+Homepage = "https://github.com/214140846/skillhub-mcp"
+Issues = "https://github.com/214140846/skillhub-mcp/issues"
 
 [project.scripts]
-skillz = "skillz.__main__:run"
+skillhub-mcp = "skillhub_mcp.__main__:run"
 
 [build-system]
 requires = ["uv_build>=0.9.5,<0.10.0"]

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from skillz import parse_args
+from skillhub_mcp import parse_args
 
 
 def test_parse_args_defaults_to_home_directory(
@@ -13,7 +13,7 @@ def test_parse_args_defaults_to_home_directory(
 
     args = parse_args([])
 
-    assert args.skills_root == fake_home / ".skillz"
+    assert args.skills_root == fake_home / ".skillhub-mcp"
     assert args.transport == "stdio"
     assert args.list_skills is False
 

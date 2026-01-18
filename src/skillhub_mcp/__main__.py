@@ -1,4 +1,4 @@
-"""Console script entry point for the Skills MCP server."""
+"""Console script entry point for the Skillhub MCP server."""
 
 from ._server import main
 

@@ -2,8 +2,8 @@
 
 from pathlib import Path
 
-from skillz import SkillRegistry
-from skillz._server import register_skill_resources
+from skillhub_mcp import SkillRegistry
+from skillhub_mcp._server import register_skill_resources
 
 
 def write_skill_with_resources(
@@ -67,7 +67,7 @@ def test_resource_metadata_follows_mcp_spec(tmp_path: Path) -> None:
         assert "relative_path" not in resource
 
         # URI should follow MCP format: protocol://host/path
-        assert resource["uri"].startswith("resource://skillz/testskill/")
+        assert resource["uri"].startswith("resource://skillhub-mcp/testskill/")
 
         # Name should be path without protocol
         assert resource["name"].startswith("testskill/")

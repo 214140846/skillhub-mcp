@@ -1,4 +1,4 @@
-"""Public package interface for the Skills MCP server."""
+"""Public package interface for the Skillhub MCP server."""
 
 from ._version import __version__
 from ._server import (

@@ -1115,8 +1115,8 @@ wheels = [
 ]
 
 [[package]]
-name = "skillz"
-version = "0.1.9"
+name = "skillhub-mcp"
+version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },

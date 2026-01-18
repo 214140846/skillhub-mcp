@@ -6,7 +6,7 @@ import zipfile
 
 import pytest
 
-from skillz import SkillRegistry, build_server
+from skillhub_mcp import SkillRegistry, build_server
 
 
 def create_zip_skill(
@@ -63,7 +63,7 @@ def test_zip_skill_resources_are_discovered(tmp_path: Path) -> None:
     from fastmcp import FastMCP
 
     mcp = FastMCP()
-    from skillz._server import register_skill_resources
+    from skillhub_mcp._server import register_skill_resources
 
     metadata = register_skill_resources(mcp, skill)
 
@@ -72,9 +72,9 @@ def test_zip_skill_resources_are_discovered(tmp_path: Path) -> None:
 
     # Check URIs
     uris = {m["uri"] for m in metadata}
-    assert "resource://skillz/myskill/text/hello.txt" in uris
-    assert "resource://skillz/myskill/bin/data.bin" in uris
-    assert "resource://skillz/myskill/scripts/run.py" in uris
+    assert "resource://skillhub-mcp/myskill/text/hello.txt" in uris
+    assert "resource://skillhub-mcp/myskill/bin/data.bin" in uris
+    assert "resource://skillhub-mcp/myskill/scripts/run.py" in uris
 
     # Check names
     names = {m["name"] for m in metadata}
@@ -101,10 +101,10 @@ async def test_zip_skill_text_resource_read(tmp_path: Path) -> None:
     fetch_tool = tools["fetch_resource"]
 
     result = await fetch_tool.fn(
-        resource_uri="resource://skillz/testskill/text/hello.txt"
+        resource_uri="resource://skillhub-mcp/testskill/text/hello.txt"
     )
 
-    assert result["uri"] == "resource://skillz/testskill/text/hello.txt"
+    assert result["uri"] == "resource://skillhub-mcp/testskill/text/hello.txt"
     assert result["name"] == "testskill/text/hello.txt"
     assert result["mime_type"] == "text/plain"
     assert result["encoding"] == "utf-8"
@@ -125,10 +125,10 @@ async def test_zip_skill_binary_resource_read(tmp_path: Path) -> None:
     fetch_tool = tools["fetch_resource"]
 
     result = await fetch_tool.fn(
-        resource_uri="resource://skillz/testskill/bin/data.bin"
+        resource_uri="resource://skillhub-mcp/testskill/bin/data.bin"
     )
 
-    assert result["uri"] == "resource://skillz/testskill/bin/data.bin"
+    assert result["uri"] == "resource://skillhub-mcp/testskill/bin/data.bin"
     assert result["name"] == "testskill/bin/data.bin"
     assert result["encoding"] == "base64"
 
@@ -247,7 +247,7 @@ Outer skill content.
 
     # The inner.zip should be a resource, not a separate skill
     from fastmcp import FastMCP
-    from skillz._server import register_skill_resources
+    from skillhub_mcp._server import register_skill_resources
 
     mcp = FastMCP()
     metadata = register_skill_resources(mcp, skill)
@@ -339,7 +339,7 @@ Content.
     skill = registry.get("macskill")
 
     from fastmcp import FastMCP
-    from skillz._server import register_skill_resources
+    from skillhub_mcp._server import register_skill_resources
 
     mcp = FastMCP()
     metadata = register_skill_resources(mcp, skill)
@@ -364,7 +364,7 @@ async def test_zip_path_traversal_rejected(tmp_path: Path) -> None:
 
     # Try path traversal
     result = await fetch_tool.fn(
-        resource_uri="resource://skillz/testskill/../../../etc/passwd"
+        resource_uri="resource://skillhub-mcp/testskill/../../../etc/passwd"
     )
 
     # Should return error
@@ -460,7 +460,7 @@ Content.
     fetch_tool = tools["fetch_resource"]
 
     result = await fetch_tool.fn(
-        resource_uri="resource://skillz/testskill/data.txt"
+        resource_uri="resource://skillhub-mcp/testskill/data.txt"
     )
 
     assert result["encoding"] == "utf-8"
@@ -496,10 +496,10 @@ async def test_skill_extension_resources_readable(tmp_path: Path) -> None:
     fetch_tool = tools["fetch_resource"]
 
     result = await fetch_tool.fn(
-        resource_uri="resource://skillz/testskillext/text/hello.txt"
+        resource_uri="resource://skillhub-mcp/testskillext/text/hello.txt"
     )
 
-    assert result["uri"] == "resource://skillz/testskillext/text/hello.txt"
+    assert result["uri"] == "resource://skillhub-mcp/testskillext/text/hello.txt"
     assert result["content"] == "Hello from zip!"
     assert result["encoding"] == "utf-8"
 

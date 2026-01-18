@@ -1,4 +1,4 @@
-"""Skills MCP server exposing local Anthropic-style skills via FastMCP.
+"""Skillhub MCP server exposing local Anthropic-style skills via FastMCP.
 
 Skills provide instructions and resources via MCP. Clients are responsible
 for reading resources (including any scripts) and executing them if needed.
@@ -36,11 +36,11 @@ from fastmcp.exceptions import ToolError
 from ._version import __version__
 
 
-LOGGER = logging.getLogger("skillz")
+LOGGER = logging.getLogger("skillhub_mcp")
 FRONT_MATTER_PATTERN = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)", re.DOTALL)
 SKILL_MARKDOWN = "SKILL.md"
-DEFAULT_SKILLS_ROOT = Path("~/.skillz")
-SERVER_NAME = "Skills MCP Server"
+DEFAULT_SKILLS_ROOT = Path("~/.skillhub-mcp")
+SERVER_NAME = "Skillhub MCP Server"
 SERVER_VERSION = __version__
 
 
@@ -549,19 +549,19 @@ def _build_resource_uri(skill: Skill, relative_path: Path) -> str:
     """Build a resource URI following MCP specification.
 
     Format: [protocol]://[host]/[path]
-    Example: resource://skillz/skill-name/path/to/file.ext
+    Example: resource://skillhub-mcp/skill-name/path/to/file.ext
     """
     encoded_slug = quote(skill.slug, safe="")
     encoded_parts = [quote(part, safe="") for part in relative_path.parts]
     path_suffix = "/".join(encoded_parts)
-    return f"resource://skillz/{encoded_slug}/{path_suffix}"
+    return f"resource://skillhub-mcp/{encoded_slug}/{path_suffix}"
 
 
 def _get_resource_name(skill: Skill, relative_path: Path) -> str:
     """Get resource name (path without protocol) following MCP specification.
 
     This is the URI path without the protocol prefix.
-    Example: skillz/skill-name/path/to/file.ext
+    Example: skillhub-mcp/skill-name/path/to/file.ext
     """
     return f"{skill.slug}/{relative_path.as_posix()}"
 
@@ -583,9 +583,9 @@ def _make_error_resource(resource_uri: str, message: str) -> Dict[str, Any]:
     """
     # Try to extract a name from the URI
     name = "invalid resource"
-    if resource_uri.startswith("resource://skillz/"):
+    if resource_uri.startswith("resource://skillhub-mcp/"):
         try:
-            path_part = resource_uri[len("resource://skillz/"):]
+            path_part = resource_uri[len("resource://skillhub-mcp/"):]
             if path_part:
                 name = path_part
         except Exception:  # pragma: no cover - defensive
@@ -609,14 +609,14 @@ def _fetch_resource_json(
     On any error, returns an error resource (never raises).
     """
     # Validate URI prefix
-    if not resource_uri.startswith("resource://skillz/"):
+    if not resource_uri.startswith("resource://skillhub-mcp/"):
         return _make_error_resource(
             resource_uri,
-            "unsupported URI prefix. Expected resource://skillz/{skill-slug}/{path}",
+            "unsupported URI prefix. Expected resource://skillhub-mcp/{skill-slug}/{path}",
         )
 
     # Parse slug and path
-    remainder = resource_uri[len("resource://skillz/"):]
+    remainder = resource_uri[len("resource://skillhub-mcp/"):]
     if not remainder:
         return _make_error_resource(
             resource_uri, "invalid resource URI format"
@@ -711,7 +711,7 @@ def register_skill_resources(
     """Register FastMCP resources for each file in a skill.
 
     Resources follow MCP specification:
-    - URI format: resource://skillz/{skill-slug}/{path}
+    - URI format: resource://skillhub-mcp/{skill-slug}/{path}
     - Name: {skill-slug}/{path} (URI without protocol)
     - MIME type: Detected from file extension
     - Content: UTF-8 text or base64-encoded binary
@@ -727,7 +727,7 @@ def register_skill_resources(
             # Build URI and name
             slug_encoded = quote(skill.slug, safe="")
             path_encoded = quote(rel_path_str, safe="/")
-            uri = f"resource://skillz/{slug_encoded}/{path_encoded}"
+            uri = f"resource://skillhub-mcp/{slug_encoded}/{path_encoded}"
             name = f"{skill.slug}/{rel_path_str}"
             mime_type, _ = mimetypes.guess_type(rel_path_str)
 
@@ -909,7 +909,7 @@ def register_skill_tool(
                          client supports it (use URIs from 'resources' field)
                        - FALLBACK: If your client lacks MCP resource support,
                          call the fetch_resource tool with the URI. Example:
-                         fetch_resource(resource_uri="resource://skillz/...")
+                         fetch_resource(resource_uri="resource://skillhub-mcp/...")
 
                     5. RESPECT constraints:
                        - If 'metadata.allowed_tools' is specified and
@@ -949,7 +949,7 @@ def configure_logging(verbose: bool, log_to_file: bool) -> None:
     handlers.append(console_handler)
 
     if log_to_file:
-        log_path = Path("/tmp/skillz.log")
+        log_path = Path("/tmp/skillhub-mcp.log")
         try:
             log_path.parent.mkdir(parents=True, exist_ok=True)
             file_handler = logging.FileHandler(
@@ -982,7 +982,7 @@ def build_server(registry: SkillRegistry) -> FastMCP:
     skill_count = len(registry.skills)
     server_instructions = textwrap.dedent(
         f"""\
-        SKILLZ MCP SERVER - Specialized Instruction Provider
+        SKILLS MCP SERVER - Specialized Instruction Provider
 
         This server provides access to {skill_count} skill(s):
         {summary}
@@ -1073,7 +1073,7 @@ def build_server(registry: SkillRegistry) -> FastMCP:
             "native MCP resource fetching. If your client supports MCP "
             "resources, use the native resource fetching mechanism "
             "instead. This tool only supports URIs in the format: "
-            "resource://skillz/{skill-slug}/{path}. Resource URIs are "
+            "resource://skillhub-mcp/{skill-slug}/{path}. Resource URIs are "
             "provided in skill tool responses under the 'resources' "
             "field."
         ),
@@ -1128,7 +1128,7 @@ def list_skills(registry: SkillRegistry) -> None:
 
 
 def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run the Skills MCP server.")
+    parser = argparse.ArgumentParser(description="Run the Skillhub MCP server.")
     parser.add_argument(
         "skills_root",
         type=Path,
@@ -1168,7 +1168,7 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     parser.add_argument(
         "--log",
         action="store_true",
-        help="Write very verbose logs to /tmp/skillz.log",
+        help="Write very verbose logs to /tmp/skillhub-mcp.log",
     )
     parser.add_argument(
         "--list-skills",
@@ -1188,7 +1188,7 @@ def main(argv: Optional[list[str]] = None) -> None:
     configure_logging(args.verbose, args.log)
 
     if args.log:
-        LOGGER.info("Verbose file logging enabled at /tmp/skillz.log")
+        LOGGER.info("Verbose file logging enabled at /tmp/skillhub-mcp.log")
 
     registry = SkillRegistry(args.skills_root)
     registry.load()
