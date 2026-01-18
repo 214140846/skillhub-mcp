@@ -1,0 +1,10 @@
+{
+	"auths": {
+		"registry.cn-hangzhou.aliyuncs.com": {}
+	},
+	"cliPluginsExtraDirs": [
+		"/Users/thor/.docker/cli-plugins"
+	],
+	"credsStore": "osxkeychain",
+	"currentContext": "orbstack"
+}

@@ -3,17 +3,21 @@
 [![PyPI version](https://img.shields.io/pypi/v/skillhub-mcp.svg)](https://pypi.org/project/skillhub-mcp/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/skillhub-mcp.svg)](https://pypi.org/project/skillhub-mcp/)
 
-你已经有一套 Claude 风格的 Skills `SKILL.md`，但经常会遇到：
+## 相关链接
+
+- PyPI：https://pypi.org/project/skillhub-mcp/
+- PyPI v1.0.0：https://pypi.org/project/skillhub-mcp/1.0.0/
+- Skills 目录：http://skills.214140846.net/
+
+你已经有一套 Claude 风格的 Skills（`SKILL.md`），但在实际使用里经常会遇到：
 
 - 你的客户端只支持 MCP，不原生支持 Claude Skills
-- 团队里用的客户端很多（Cursor、Copilot、Codex 等），Skills 难以“跨工具复用”
+- 团队里用的客户端很多（Cursor、Copilot、Codex 等），Skills 很难跨工具复用
 - 想要更灵活的目录组织与分发方式（嵌套目录、打包成 zip 等）
 
-**Skillhub MCP** 的定位很简单：把 Claude 风格的 Skills 转成可被任何 MCP 客户端调用的 MCP tools，让你实现“**一次写或装，多处用**”。
+**Skillhub MCP** 的定位很简单：把 Claude 风格的 Skills 转成 MCP tools，让任何支持 MCP 的客户端都能调用同一套技能，实现“**一次写或装，多处用**”。
 
-> ⚠️ 试验性项目。Skills 往往包含脚本与资源文件，请当作不可信代码对待，建议用沙箱或容器隔离。
-
-> Skills 目录：**[Skills Supermarket](http://skills.214140846.net/)**。
+> ⚠️ 试验性项目。Skills 往往包含脚本与资源文件，请当作不可信内容对待，建议用沙箱或容器隔离运行。
 
 ## 你会得到什么
 
@@ -45,27 +49,6 @@
   "skillhub-mcp": {
     "command": "uvx",
     "args": ["skillhub-mcp@latest", "/path/to/skills"]
-  }
-}
-```
-
-### Docker（隔离运行）
-
-把 `/path/to/skills` 替换成你的 skills 目录。数组中镜像名之后的参数会原样传给 Skillhub MCP 的 CLI。
-
-```json
-{
-  "skillhub-mcp": {
-    "command": "docker",
-    "args": [
-      "run",
-      "-i",
-      "--rm",
-      "-v",
-      "/path/to/skills:/skillhub-mcp",
-      "214140846/skillhub-mcp",
-      "/skillhub-mcp"
-    ]
   }
 }
 ```
@@ -113,7 +96,7 @@ data-cleaner.zip
 
 ## 目录结构对比：Skillhub MCP 与 Claude Code
 
-Claude Code 要求 skills 目录是“扁平”的：每个直接子目录就是一个 skill。Skillhub MCP 更宽松：
+Claude Code 要求 skills 目录是扁平结构：每个直接子目录就是一个 skill。Skillhub MCP 更宽松：
 
 - 支持嵌套目录
 - 支持 `.zip` / `.skill` 打包形式
@@ -135,8 +118,12 @@ Claude Code 要求 skills 目录是“扁平”的：每个直接子目录就是
 | `--verbose` | 输出更详细的日志。 |
 | `--log` | 将 verbose 日志同时写入 `/tmp/skillhub-mcp.log`。 |
 
+## 安全提示
+
+- Skills 不只是提示词，通常还会包含脚本与资源文件。
+- Skillhub MCP 不会执行脚本，但你的客户端可能会执行。优先使用沙箱或容器。
+
 ## 语言
 
 - English: `README.md`
 - 中文: `README.zh-CN.md`
-

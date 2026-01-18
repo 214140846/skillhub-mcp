@@ -3,24 +3,28 @@
 [![PyPI version](https://img.shields.io/pypi/v/skillhub-mcp.svg)](https://pypi.org/project/skillhub-mcp/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/skillhub-mcp.svg)](https://pypi.org/project/skillhub-mcp/)
 
-You already have Claude-style skills (`SKILL.md`) but:
+## Links
 
-- your client supports MCP, not Claude Skills
-- your team uses multiple clients (Cursor, Copilot, Codex, etc.) and skills are hard to reuse
-- you want a looser skills directory format (nested folders, zip packaging)
+- PyPI: https://pypi.org/project/skillhub-mcp/
+- PyPI v1.0.0: https://pypi.org/project/skillhub-mcp/1.0.0/
+- Skills directory: http://skills.214140846.net/
 
-**Skillhub MCP** bridges that gap: it turns Claude-style skills into callable MCP tools, so any MCP client can invoke the same skills.
+You already have Claude-style skills (`SKILL.md`), but in practice you often hit a wall:
 
-> ⚠️ Experimental. Skills often include scripts/resources; treat them as untrusted. Use sandboxes/containers for isolation.
+- your client speaks MCP, not Claude Skills
+- your team uses multiple agents (Cursor, Copilot, Codex, etc.), so skills are painful to reuse across tools
+- you want a more flexible way to organize and ship skills (nested folders, zip packaging)
 
-> Skill directory: **[Skills Supermarket](http://skills.214140846.net/)**.
+**Skillhub MCP** bridges that gap: it turns Claude-style skills into MCP tools, so any MCP client can call the same skills.
+
+> ⚠️ Experimental. Skills may contain scripts/resources. Treat them as untrusted and run with sandboxes/containers when possible.
 
 ## What You Get
 
-- Cross-client reuse: write/install once, call from any MCP client
+- Cross-client reuse: install once, use from any MCP client
 - Flexible packaging: nested directories, `.zip` and `.skill` archives
-- Skill resources: expose additional files (scripts, datasets, examples) as MCP resources
-- Fallback resource fetch: a `fetch_resource` tool for clients without native MCP resource support
+- Skill resources: expose scripts/datasets/examples as MCP resources (files the client can read)
+- Resource fallback: a `fetch_resource` tool for clients without native MCP resource support
 - Multiple transports: `stdio` (default), `http`, `sse`
 
 ## Quick Start
@@ -45,28 +49,6 @@ Use a custom skills root:
   "skillhub-mcp": {
     "command": "uvx",
     "args": ["skillhub-mcp@latest", "/path/to/skills"]
-  }
-}
-```
-
-### Docker (isolation)
-
-Replace `/path/to/skills` with your skills directory. Any arguments after the
-image name are passed to the Skillhub MCP CLI.
-
-```json
-{
-  "skillhub-mcp": {
-    "command": "docker",
-    "args": [
-      "run",
-      "-i",
-      "--rm",
-      "-v",
-      "/path/to/skills:/skillhub-mcp",
-      "214140846/skillhub-mcp",
-      "/skillhub-mcp"
-    ]
   }
 }
 ```
@@ -137,6 +119,11 @@ If you need Claude Code compatibility, keep the flat layout.
 | `--list-skills` | List discovered skills and exit. |
 | `--verbose` | Emit debug logging. |
 | `--log` | Mirror verbose logs to `/tmp/skillhub-mcp.log`. |
+
+## Safety Notes
+
+- Skills are not "just prompts": they can include scripts and arbitrary files.
+- Skillhub MCP does not run scripts, but your client might. Prefer running in a sandbox/container.
 
 ## Language
 
