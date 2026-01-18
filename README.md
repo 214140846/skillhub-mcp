@@ -19,6 +19,13 @@ You already have Claude-style skills (`SKILL.md`), but in practice you often hit
 
 > ⚠️ Experimental. Skills may contain scripts/resources. Treat them as untrusted and run with sandboxes/containers when possible.
 
+## Is this an MCP server or an MCP client?
+
+This project is an **MCP server**.
+
+- **Skillhub MCP (this repo)**: runs as a server process and exposes tools/resources to clients.
+- **MCP clients**: editors/agents like Cursor, Claude Code, Codex, etc. They start or connect to MCP servers.
+
 ## What You Get
 
 - Cross-client reuse: install once, use from any MCP client
@@ -51,6 +58,76 @@ Use a custom skills root:
     "args": ["skillhub-mcp@latest", "/path/to/skills"]
   }
 }
+```
+
+## Install in Popular Editors (MCP Clients)
+
+Below are minimal working examples for mainstream “vibe coding” editors.
+
+### Cursor
+
+Cursor supports configuring MCP servers via `mcp.json`. Add the following to your
+global `~/.cursor/mcp.json` or project `.cursor/mcp.json`, then restart Cursor.
+
+```json
+{
+  "mcpServers": {
+    "skillhub-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["skillhub-mcp@latest", "/path/to/skills"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+Option A: configure via Claude Code CLI (recommended for quick setup):
+
+```bash
+claude mcp add --transport stdio skillhub-mcp -- uvx skillhub-mcp@latest /path/to/skills
+```
+
+Option B: project-scoped configuration via `.mcp.json` at your project root. You
+may need to explicitly allow project MCP servers in `.claude/settings.json`.
+
+`./.mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "skillhub-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["skillhub-mcp@latest", "/path/to/skills"]
+    }
+  }
+}
+```
+
+`./.claude/settings.json` (approve only this server)
+
+```json
+{
+  "enabledMcpjsonServers": ["skillhub-mcp"]
+}
+```
+
+### Codex (OpenAI)
+
+Option A: use the Codex CLI to add a stdio MCP server:
+
+```bash
+codex mcp add skillhub-mcp -- uvx skillhub-mcp@latest /path/to/skills
+```
+
+Option B: edit `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.skillhub-mcp]
+command = "uvx"
+args = ["skillhub-mcp@latest", "/path/to/skills"]
 ```
 
 ## Skill Format

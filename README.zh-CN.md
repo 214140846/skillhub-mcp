@@ -19,6 +19,13 @@
 
 > ⚠️ 试验性项目。Skills 往往包含脚本与资源文件，请当作不可信内容对待，建议用沙箱或容器隔离运行。
 
+## 这是 MCP server 还是 MCP client？
+
+这个项目是 **MCP server**。
+
+- **Skillhub MCP（本项目）**：作为服务进程运行，对外提供 tools/resources。
+- **MCP client**：比如 Cursor、Claude Code、Codex 等编辑器或 Agent，会启动或连接 MCP server。
+
 ## 你会得到什么
 
 - 跨客户端复用：同一套 Skills，任意 MCP 客户端都能调用
@@ -51,6 +58,74 @@
     "args": ["skillhub-mcp@latest", "/path/to/skills"]
   }
 }
+```
+
+## 在主流编辑器中安装（MCP Clients）
+
+下面给出 Cursor、Claude Code、Codex 等主流“vibe coding”编辑器的最小可用配置示例。
+
+### Cursor
+
+Cursor 支持通过 `mcp.json` 配置 MCP servers。把下面内容加到全局 `~/.cursor/mcp.json` 或项目级 `.cursor/mcp.json`，然后重启 Cursor。
+
+```json
+{
+  "mcpServers": {
+    "skillhub-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["skillhub-mcp@latest", "/path/to/skills"]
+    }
+  }
+}
+```
+
+### Claude Code
+
+方式 A：用 Claude Code CLI 一条命令添加（更快）：
+
+```bash
+claude mcp add --transport stdio skillhub-mcp -- uvx skillhub-mcp@latest /path/to/skills
+```
+
+方式 B：项目级配置。在项目根目录创建 `.mcp.json`，并在 `.claude/settings.json` 中显式允许该项目 MCP server（建议只放行本服务）。
+
+`./.mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "skillhub-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["skillhub-mcp@latest", "/path/to/skills"]
+    }
+  }
+}
+```
+
+`./.claude/settings.json`（仅允许本服务）
+
+```json
+{
+  "enabledMcpjsonServers": ["skillhub-mcp"]
+}
+```
+
+### Codex（OpenAI）
+
+方式 A：用 Codex CLI 添加 stdio MCP server：
+
+```bash
+codex mcp add skillhub-mcp -- uvx skillhub-mcp@latest /path/to/skills
+```
+
+方式 B：编辑 `~/.codex/config.toml`：
+
+```toml
+[mcp_servers.skillhub-mcp]
+command = "uvx"
+args = ["skillhub-mcp@latest", "/path/to/skills"]
 ```
 
 ## Skill 目录与打包规则
